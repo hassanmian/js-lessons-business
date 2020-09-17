@@ -1,33 +1,39 @@
 import React, {useState} from 'react';
-import {Switch, Route, useHistory} from 'react-router-dom'
-import './App.css';
+import { Switch, Route, useHistory } from 'react-router-dom'
 import UserKit from './data/UserKit';
 
 function App() {
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [customerList, setCustomerList] = useState([])
-  const userKit = new UserKit()
+  const [organisationName, setOrganisationName] = useState("")
+  const [organisationKind, setOrganisationKind] = useState("")
+
+  const [loginEmail, setLoginEmail] = useState("")
+  const [loginPassword, setLoginPassword] = useState("")
+
   const history = useHistory()
-  // Use URL Search Params to parse the query parameters from the url
-  const params = new URLSearchParams(history.location.search);
-  const uid = params.get('uid')
-  const token = params.get('token')
+  const searchString = history.location.search
+  const urlParameters = new URLSearchParams(searchString)
+  
+  const [uid, setUid] = useState(urlParameters.get('uid'))
+  const [token, setToken] = useState(urlParameters.get('token'))
 
-  function handleCreateUser() {
-    userKit.register("Hassan", "Mian", "mian+test+4@willandskill.se", "hej123svejs43321", "Mitt företag AB", "0")
-  }
+  const userKit = new UserKit()
+  console.log(searchString)
 
-  function handleActivateAccount() {
-    userKit.activateUser(
-      uid, token
-    ).then(
+  function handleActivateUser() {
+    userKit.activateUser(uid, token)
+    .then(() => {
+      setUid(null);
+      setToken(null);
       history.push('/login')
-    )
+    })
   }
 
   function handleLogin() {
-    userKit.login(email, password)
+    userKit.login(loginEmail, loginPassword)
     .then(res => res.json())
     .then(data => {
       userKit.setToken(data.token)
@@ -35,65 +41,88 @@ function App() {
     })
   }
 
-  function fetchClients() {
+  function handleRegister() {
+    userKit.register(
+      firstName,
+      lastName,
+      email,
+      password,
+      organisationName,
+      organisationKind
+    )
+  }
+
+  function getCustomerList() {
     userKit.getCustomerList()
     .then(res => res.json())
     .then(data => {
-      setCustomerList(data.results)
+      console.log(data)
     })
   }
 
-  function handleCreateCustomer() {
-    const payload = {
-      name: "My first client"
-    }
-    userKit.createCustomer(payload)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      fetchClients()
-    })
+  function renderInput(index, placeholder, stateVariable, stateSetVariable) {
+    return (
+      <div key={index}>
+        <label>{placeholder}</label>
+        <input placeholder={placeholder} value={stateVariable} onChange={(e) => stateSetVariable(e.target.value)} />
+      </div>
+    )
   }
+
+  const inputObjects = [
+    ["First Name", firstName, setFirstName],
+    ["Last Name", lastName, setLastName],
+    ["Email", email, setEmail],
+    ["Password", password, setPassword],
+    ["Organisation Name", organisationName, setOrganisationName],
+    ["Organisation Kind (0,1,2)", organisationKind, setOrganisationKind]
+  ]
 
   return (
     <div>
+      <h1>Business Project</h1>
       <Switch>
         <Route path="/home">
-          <h1>Welcome to Business Application</h1>
-          <button onClick={fetchClients}>Get my Clients</button>
-          {customerList.map(customerItem => {
-            return <p>{customerItem.name}</p>
-          })}
-          <button onClick={handleCreateCustomer}>Create test customer</button>
+          <div>
+            <h1>Home</h1>
+            <button onClick={getCustomerList}>Get Customer List</button>
+          </div>
         </Route>
         <Route path="/login">
-          <h1>Activate account</h1>
-          {/* Only show that account is beeing activated if uid and token exists in URL */}
-          { uid && token && (
+          {uid && token ? (
             <div>
-              Your account is being activated
-              {handleActivateAccount()}
+              <h2>Activate Account</h2>
+              <button onClick={handleActivateUser}>Activate User</button>
             </div>
-          )}
-          {/* If uid and token doesn't exist in url, render login form */}
-          { !uid && !token && (
+          ): (
             <div>
-              <p>
-                Your account is now active. Please Login
-              </p>
-              <input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-              <input placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+              <h2>Login</h2>
+              <input 
+                placeholder="Email" 
+                value={loginEmail} 
+                onChange={(e) => setLoginEmail(e.target.value)} 
+              />
+              <input 
+                placeholder="Password" 
+                value={loginPassword} 
+                onChange={(e) => setLoginPassword(e.target.value)} 
+              />
               <button onClick={handleLogin}>Login</button>
             </div>
           )}
+          
         </Route>
         <Route path="/">
-          <h1>Register</h1>
-          <button onClick={handleCreateUser}>Create User</button>
+          <h2>Register</h2>
+          <p>Enter details to register</p>
+          {inputObjects.map((inputItem, index) => {
+            return renderInput(index, inputItem[0], inputItem[1], inputItem[2])
+          })}
+          <button onClick={handleRegister}>Register</button>
         </Route>
       </Switch>
     </div>
-  );
+  )  
 }
 
 export default App;
