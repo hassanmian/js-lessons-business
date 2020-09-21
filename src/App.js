@@ -1,95 +1,46 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Switch, Route, useHistory} from 'react-router-dom'
 import './App.css';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import CustomerDetailPage from './pages/CustomerDetailPage';
 import UserKit from './data/UserKit';
 
+
 function App() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [customerList, setCustomerList] = useState([])
+
+  const [me, setMe] = useState(null)
+  
   const userKit = new UserKit()
-  const history = useHistory()
-  // Use URL Search Params to parse the query parameters from the url
-  const params = new URLSearchParams(history.location.search);
-  const uid = params.get('uid')
-  const token = params.get('token')
 
-  function handleCreateUser() {
-    userKit.register("Hassan", "Mian", "mian+test+4@willandskill.se", "hej123svejs43321", "Mitt företag AB", "0")
-  }
-
-  function handleActivateAccount() {
-    userKit.activateUser(
-      uid, token
-    ).then(
-      history.push('/login')
-    )
-  }
-
-  function handleLogin() {
-    userKit.login(email, password)
+  useEffect(() => {
+    userKit.getMe()
     .then(res => res.json())
     .then(data => {
-      userKit.setToken(data.token)
-      history.push('/home')
+      setMe(data)
     })
-  }
-
-  function fetchClients() {
-    userKit.getCustomerList()
-    .then(res => res.json())
-    .then(data => {
-      setCustomerList(data.results)
+    .catch(errors => {
+      console.log(errors)
     })
-  }
-
-  function handleCreateCustomer() {
-    const payload = {
-      name: "My first client"
-    }
-    userKit.createCustomer(payload)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      fetchClients()
-    })
-  }
-
+  }, [])
+  
   return (
     <div>
+      {me && (
+        <p>Välkommen {me.firstName}</p>
+      )}
       <Switch>
+        <Route path="/customer/:id" component={CustomerDetailPage}>
+        </Route>
         <Route path="/home">
-          <h1>Welcome to Business Application</h1>
-          <button onClick={fetchClients}>Get my Clients</button>
-          {customerList.map(customerItem => {
-            return <p>{customerItem.name}</p>
-          })}
-          <button onClick={handleCreateCustomer}>Create test customer</button>
+          <HomePage />
         </Route>
         <Route path="/login">
-          <h1>Activate account</h1>
-          {/* Only show that account is beeing activated if uid and token exists in URL */}
-          { uid && token && (
-            <div>
-              Your account is being activated
-              {handleActivateAccount()}
-            </div>
-          )}
-          {/* If uid and token doesn't exist in url, render login form */}
-          { !uid && !token && (
-            <div>
-              <p>
-                Your account is now active. Please Login
-              </p>
-              <input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-              <input placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-              <button onClick={handleLogin}>Login</button>
-            </div>
-          )}
+          <LoginPage />
         </Route>
         <Route path="/">
-          <h1>Register</h1>
-          <button onClick={handleCreateUser}>Create User</button>
+          <RegisterPage />
         </Route>
       </Switch>
     </div>

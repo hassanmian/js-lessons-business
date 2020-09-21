@@ -38,16 +38,36 @@ export default class {
     })
   }
 
-  async getCustomerList() {
-    const url = `${API_URL}customers`
-    console.log(url)
-    console.log(this.getPrivateHeaders())
+  async getMe() {
+    const url = `${API_URL}me`
     return fetch(url, {
       headers: this.getPrivateHeaders(),
     })
   }
 
-  async createCustomer(payload) {
+  async getCustomerList() {
+    const url = `${API_URL}customers`
+    return fetch(url, {
+      headers: this.getPrivateHeaders(),
+    })
+  }
+
+  async getCustomerDetail(id) {
+    const url = `${API_URL}customers/${id}/`
+    return fetch(url, {
+      headers: this.getPrivateHeaders(),
+    })
+  }
+
+  async customerDelete(id) {
+    const url = `${API_URL}customers/${id}/`
+    return fetch(url, {
+      method: "DELETE",
+      headers: this.getPrivateHeaders(),
+    })
+  }
+
+  async customerCreate(payload) {
     const url = `${API_URL}customers`
     return fetch(url, {
       method: "POST",
