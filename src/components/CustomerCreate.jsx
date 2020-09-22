@@ -36,14 +36,14 @@ export default function CustomerCreate({handleOnSuccess}) {
   return (
     <>
       <h2>Create new Customer</h2>
-      <input placeholder="Customer Name" value={name} onChange={(e) => setName(e.target.value)} />
-      <input placeholder="organisationNr" value={organisationNr} onChange={(e) => setOrganisationNr(e.target.value)} />
-      <input placeholder="vatNr" value={vatNr} onChange={(e) => setVatNr(e.target.value)} />
-      <input placeholder="reference" value={reference} onChange={(e) => setReference(e.target.value)} />
-      <input placeholder="paymentTerm" value={paymentTerm} onChange={(e) => setPaymentTerm(e.target.value)} />
-      <input placeholder="website" value={website} onChange={(e) => setWebsite(e.target.value)} />
-      <input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input placeholder="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+      <p><input placeholder="Customer Name" value={name} onChange={(e) => setName(e.target.value)} /></p>
+      <p><input placeholder="organisationNr" value={organisationNr} onChange={(e) => setOrganisationNr(e.target.value)} /></p>
+      <p><input placeholder="vatNr" value={vatNr} onChange={(e) => setVatNr(e.target.value)} /></p>
+      <p><input placeholder="reference" value={reference} onChange={(e) => setReference(e.target.value)} /></p>
+      <p><input placeholder="paymentTerm" value={paymentTerm} onChange={(e) => setPaymentTerm(e.target.value)} /></p>
+      <p><input placeholder="website" value={website} onChange={(e) => setWebsite(e.target.value)} /></p>
+      <p><input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} /></p>
+      <p><input placeholder="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} /></p>
       <button onClick={handleCustomerCreate}>Create test customer</button>
     </>
   )

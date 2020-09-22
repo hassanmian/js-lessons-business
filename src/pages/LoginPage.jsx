@@ -48,8 +48,8 @@ export default function LoginPage() {
           <p>
             Your account is now active. Please Login
               </p>
-          <input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <p><input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} /></p>
+          <p><input placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} /></p>
           <button onClick={handleLogin}>Login</button>
         </div>
       )}
