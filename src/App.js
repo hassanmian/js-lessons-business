@@ -27,8 +27,8 @@ function App() {
   
   return (
     <div>
-      {me && (
-        <p>Välkommen {me.firstName}</p>
+      {me && me.firstName && (
+        <p>Welcome {me.firstName}</p>
       )}
       <Switch>
         <Route path="/customer/:id" component={CustomerDetailPage}>
