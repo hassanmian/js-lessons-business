@@ -5,7 +5,7 @@ export default function CustomerList({ customerList }) {
   return (
     <>
       {customerList.length === 0 && (
-        <strong>"You don't have any customer."</strong>
+        <strong>You don't have any customer.</strong>
       )}
 
       {customerList.map(customerItem => {
