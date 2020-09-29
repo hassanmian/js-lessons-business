@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/js-lessons-business/static/css/main.5f361e03.chunk.css",
+    "main.js": "/js-lessons-business/static/js/main.18311dbd.chunk.js",
+    "main.js.map": "/js-lessons-business/static/js/main.18311dbd.chunk.js.map",
+    "runtime-main.js": "/js-lessons-business/static/js/runtime-main.c377b742.js",
+    "runtime-main.js.map": "/js-lessons-business/static/js/runtime-main.c377b742.js.map",
+    "static/js/2.d7746836.chunk.js": "/js-lessons-business/static/js/2.d7746836.chunk.js",
+    "static/js/2.d7746836.chunk.js.map": "/js-lessons-business/static/js/2.d7746836.chunk.js.map",
+    "index.html": "/js-lessons-business/index.html",
+    "precache-manifest.b18b76910c79ef9278e286ae65236cba.js": "/js-lessons-business/precache-manifest.b18b76910c79ef9278e286ae65236cba.js",
+    "service-worker.js": "/js-lessons-business/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/js-lessons-business/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.d7746836.chunk.js.LICENSE.txt": "/js-lessons-business/static/js/2.d7746836.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c377b742.js",
+    "static/js/2.d7746836.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.18311dbd.chunk.js"
+  ]
+}
